@@ -24,8 +24,9 @@ from autoads_engine.intensity import IntensityEngine
 from autoads_engine.overlay import GraphicOverlayEngine, OverlayType, OverlaySpec
 from autoads_engine.vfx import VFXEngine
 from autoads_engine.presets import get_preset, list_presets
+from autoads_engine.jev import JEVDecision, JevClient, JevPlanner, JevFallback
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 __all__ = [
     "ScenePurpose", "SceneEmotion", "CameraMotion", "TransitionType",
     "SFXEvent", "CaptionAnimStyle", "VFXCategory", "SceneDef", "CutDef", "SubCue",
@@ -34,4 +35,5 @@ __all__ = [
     "TransitionEngine", "SFXEngine", "IntensityEngine",
     "GraphicOverlayEngine", "OverlayType", "OverlaySpec", "VFXEngine",
     "get_preset", "list_presets",
+    "JEVDecision", "JevClient", "JevPlanner", "JevFallback",
 ]

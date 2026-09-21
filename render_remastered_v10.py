@@ -60,17 +60,29 @@ from autoads_engine.caption import CaptionEngine, KeywordDetector
 from autoads_engine.transition import TransitionEngine
 from autoads_engine.sfx_engine import SFXEngine
 from autoads_engine.intensity import IntensityEngine
-from autoads_engine.overlay import GraphicOverlayEngine, OverlayType
+from autoads_engine.overlay import GraphicOverlayEngine, OverlayType, OverlaySpec
 from autoads_engine.vfx import VFXEngine
 from autoads_engine.presets import get_preset
 
 # ── Paths (auto-resolving with v9 compatibility) ───────────────────────────
 def _resolve_dir(primary: str, fallbacks: list[str]) -> str:
-    if os.path.exists(primary):
-        return primary
+    try:
+        if os.path.exists(primary):
+            return primary
+    except Exception:
+        pass
     for fb in fallbacks:
-        if os.path.exists(fb):
+        try:
+            if os.path.exists(fb):
+                return fb
+        except Exception:
+            pass
+    for fb in fallbacks:
+        try:
+            os.makedirs(fb, exist_ok=True)
             return fb
+        except Exception:
+            pass
     return primary
 
 _curr_dir = os.path.abspath(os.path.dirname(__file__))
@@ -120,10 +132,12 @@ BUILD_DIR     = os.path.join(WORKDIR, "build_temp_v10")
 CHUNK_DIR     = os.path.join(BUILD_DIR, "chunks")
 SPARKLE_DIR   = os.path.join(BUILD_DIR, "sparkles")
 SPLIT_DIR     = os.path.join(BUILD_DIR, "split_frames")
+OVERLAY_DIR   = os.path.join(BUILD_DIR, "overlays")
 try:
     os.makedirs(CHUNK_DIR,   exist_ok=True)
     os.makedirs(SPARKLE_DIR, exist_ok=True)
     os.makedirs(SPLIT_DIR,   exist_ok=True)
+    os.makedirs(OVERLAY_DIR, exist_ok=True)
 except Exception:
     pass
 
@@ -253,7 +267,14 @@ def build_scene_defs():
                  "asset": os.path.join(MODEL_DIR, "환하게 인사하는 장면 - Trim.mp4"),
                  "start": 0.0, "dur": 2.677,
                  "zoom": True, "sparkles": True, "flash": False,
-                 "camera": "fast_push", "transition_in": "flash"},
+                 "camera": "fast_push", "transition_in": "flash",
+                 "vfx": "beauty",
+                 "overlay": OverlaySpec(
+                     overlay_type=OverlayType.BURST,
+                     start_time=0.2, end_time=1.8,
+                     position=(880, 360), size=(180, 180),
+                     color=(255, 230, 0, 240)
+                 )},
             ]
         },
         # Scene 2 — PROBLEM: "유명한 모공 앰플, 레티놀 크림 다 써봐도 개기름 뜨고 화장 밀리고,"
@@ -282,7 +303,13 @@ def build_scene_defs():
                  "asset": os.path.join(XHS_DIR, r"4_피부_숏폼영상_무자막\17.mp4"),
                  "start": 1.5, "dur": 1.864,
                  "zoom": True, "sparkles": False, "flash": False,
-                 "camera": "slow_zoom_in", "transition_in": "hard_cut"},
+                 "camera": "slow_zoom_in", "transition_in": "hard_cut",
+                 "overlay": OverlaySpec(
+                     overlay_type=OverlayType.X,
+                     start_time=0.2, end_time=1.6,
+                     position=(820, 520), size=(160, 160),
+                     color=(255, 45, 45, 240), line_width=12
+                 )},
             ]
         },
         # Scene 3 — AGITATION: "심할 땐 피부가 아예 뒤집어지더라고요. 결국 나비존 요철만 푹 파였죠"
@@ -314,7 +341,14 @@ def build_scene_defs():
                  "asset": os.path.join(XHS_DIR, r"4_피부_숏폼영상_무자막\07.mp4"),
                  "start": 1.0, "dur": 1.807,
                  "zoom": True, "sparkles": False, "flash": False,
-                 "camera": "slow_zoom_in", "transition_in": "hard_cut"},
+                 "camera": "slow_zoom_in", "transition_in": "hard_cut",
+                 "vfx": "impact",
+                 "overlay": OverlaySpec(
+                     overlay_type=OverlayType.CIRCLE,
+                     start_time=0.3, end_time=1.6,
+                     position=(540, 920), size=(320, 320),
+                     color=(255, 60, 60, 220), line_width=8
+                 )},
             ]
         },
         # Scene 4 — PROOF: Split Before/After + "근데 귤껍질 같던 볼살 매끈해진 거 보이세요?"
@@ -403,7 +437,14 @@ def build_scene_defs():
                  "asset": os.path.join(ROOT_DIR, "여드름 애프터 2.mp4"),
                  "start": 0.5, "dur": 2.416,
                  "zoom": True, "sparkles": True, "flash": True,
-                 "camera": "push_in", "transition_in": "white_flash"},
+                 "camera": "push_in", "transition_in": "white_flash",
+                 "vfx": "beauty",
+                 "overlay": OverlaySpec(
+                     overlay_type=OverlayType.CHECK,
+                     start_time=0.2, end_time=2.0,
+                     position=(840, 460), size=(150, 150),
+                     color=(0, 235, 140, 245), line_width=12
+                 )},
             ]
         },
         # Scene 7 — BENEFIT: "한 달 꾸준히 먹어보니 이젠 프라이머 없이도 매끈한 17호 피부"
@@ -433,7 +474,8 @@ def build_scene_defs():
                  "asset": os.path.join(MODEL_DIR, "피부 클로즈업2 - Trim.mp4"),
                  "start": 0.0, "dur": 2.440,
                  "zoom": True, "sparkles": True, "flash": False,
-                 "camera": "slow_zoom_in", "transition_in": "hard_cut"},
+                 "camera": "slow_zoom_in", "transition_in": "hard_cut",
+                 "vfx": "beauty"},
             ]
         },
         # Scene 8 — PRODUCT: Mechanism explanation + "피부과 프락셀 레이저가 이식된 느낌"
@@ -465,12 +507,21 @@ def build_scene_defs():
                  "asset": os.path.join(MODEL_DIR, "피지,모낭 없애는.mp4"),
                  "start": 0.5, "dur": 2.000,
                  "zoom": True, "sparkles": False, "flash": True,
-                 "camera": "push_in", "transition_in": "flash"},
+                 "camera": "push_in", "transition_in": "flash",
+                 "vfx": "info",
+                 "overlay": OverlaySpec(
+                     overlay_type=OverlayType.BADGE,
+                     start_time=0.2, end_time=1.8,
+                     position=(540, 320), size=(380, 68),
+                     text="속피지선 집중 케어",
+                     color=(25, 30, 45, 230), outline_color=(0, 230, 255, 255)
+                 )},
                 {"name": "15_collagen_mesh_3d",
                  "asset": os.path.join(ROOT_DIR, "새살 차오르기 2.mp4"),
                  "start": 1.0, "dur": 2.000,
                  "zoom": True, "sparkles": True, "flash": False,
-                 "camera": "slow_zoom_in", "transition_in": "hard_cut"},
+                 "camera": "slow_zoom_in", "transition_in": "hard_cut",
+                 "vfx": "beauty"},
                 {"name": "16_laser_clinic",
                  "asset": os.path.join(MODEL_DIR, "Person_receiving_laser_skin_trea…_202609041413.mp4"),
                  "start": 0.5, "dur": 1.600,
@@ -480,7 +531,8 @@ def build_scene_defs():
                  "asset": os.path.join(MODEL_DIR, "피부 클로즈업3 - Trim.mp4"),
                  "start": 0.5, "dur": 1.899,
                  "zoom": True, "sparkles": True, "flash": False,
-                 "camera": "push_in", "transition_in": "hard_cut"},
+                 "camera": "push_in", "transition_in": "hard_cut",
+                 "vfx": "beauty"},
             ]
         },
         # Scene 9 — BENEFIT: "하루 종일 자연광 맞아도 매끈한 깐달걀 피부 톤이 쭈욱 유지돼요"
@@ -505,12 +557,14 @@ def build_scene_defs():
                  "asset": os.path.join(MODEL_DIR, "환하게 웃는 장면 - Trim.mp4"),
                  "start": 0.5, "dur": 1.400,
                  "zoom": True, "sparkles": True, "flash": True,
-                 "camera": "push_in", "transition_in": "flash"},
+                 "camera": "push_in", "transition_in": "flash",
+                 "vfx": "beauty"},
                 {"name": "19_confident_thumbs_up",
                  "asset": os.path.join(MODEL_DIR, "따봉.mp4"),
                  "start": 0.5, "dur": 1.773,
                  "zoom": True, "sparkles": True, "flash": False,
-                 "camera": "push_in", "transition_in": "hard_cut"},
+                 "camera": "push_in", "transition_in": "hard_cut",
+                 "vfx": "beauty"},
             ]
         },
         # Scene 10 — OFFER+CTA: "30일 기간 한정 반값 할인 / 아래 비밀링크"
@@ -542,7 +596,15 @@ def build_scene_defs():
                  "start": 0.5, "dur": 1.800,
                  "hflip": True,
                  "zoom": True, "sparkles": False, "flash": True,
-                 "camera": "fast_push", "transition_in": "flash"},
+                 "camera": "fast_push", "transition_in": "flash",
+                 "vfx": "product",
+                 "overlay": OverlaySpec(
+                     overlay_type=OverlayType.BADGE,
+                     start_time=0.2, end_time=1.8,
+                     position=(540, 320), size=(440, 75),
+                     text="30일 기간한정 50% 반값",
+                     color=(235, 35, 35, 240), outline_color=(255, 255, 255, 255)
+                 )},
                 {"name": "21_secret_whisper",
                  "asset": os.path.join(MODEL_DIR, "이거 비밀인데.. - Trim.mp4"),
                  "start": 0.5, "dur": 1.800,
@@ -552,7 +614,13 @@ def build_scene_defs():
                  "asset": os.path.join(MODEL_DIR, "화살표 아래로_CTA (손가락 모양이 좀..) - Trim.mp4"),
                  "start": 0.0, "dur": 1.863,
                  "zoom": False, "sparkles": False, "flash": False,
-                 "camera": "static", "transition_in": "hard_cut"},
+                 "camera": "static", "transition_in": "hard_cut",
+                 "overlay": OverlaySpec(
+                     overlay_type=OverlayType.ARROW,
+                     start_time=0.2, end_time=1.8,
+                     position=(540, 1380), size=(160, 220),
+                     color=(255, 220, 0, 255), line_width=10, rotation=180.0
+                 )},
             ]
         },
     ]
@@ -565,12 +633,13 @@ def build_chunk_filter(
     cam_engine: CameraEngine,
     trans_engine: TransitionEngine,
     clip_dur: float,
-    has_vfx: bool = False,
+    vfx_input_idx: Optional[int] = None,
+    overlay_input_idx: Optional[int] = None,
+    overlay_timing: Optional[Tuple[float, float]] = None,
 ) -> str:
     """
     Build the complete filter_complex string for a single cut.
-    Uses v10 engine if camera/transition_in fields are set,
-    falls back to v9 legacy behavior otherwise.
+    Handles Camera motion, categorized VFX overlay, Graphic overlay, and Transitions.
     """
     filter_chains = []
     curr_in = "0:v"
@@ -615,14 +684,23 @@ def build_chunk_filter(
         curr_v = "[scaled]"
 
     # 4. VFX overlay (v10 categorized engine or v9 sparkles fallback)
-    if has_vfx:
-        filter_chains.append(f"[1:v]fps=30[fx];{curr_v}[fx]overlay=0:0:shortest=1[vfx_out]")
+    if vfx_input_idx is not None:
+        filter_chains.append(f"[{vfx_input_idx}:v]fps=30[fx_in];{curr_v}[fx_in]overlay=0:0:shortest=1[vfx_out]")
         curr_v = "[vfx_out]"
     elif c.get("sparkles", False):
         filter_chains.append(f"[1:v]fps=30[sp];{curr_v}[sp]overlay=0:0:shortest=1[sparkled]")
         curr_v = "[sparkled]"
 
-    # 5. Transition (v10 engine or v9 flash fallback)
+    # 5. Graphic overlay (PIL-rendered overlay asset)
+    if overlay_input_idx is not None and overlay_timing is not None:
+        st, et = overlay_timing
+        filter_chains.append(
+            f"[{overlay_input_idx}:v]fps=30[ov_in];"
+            f"{curr_v}[ov_in]overlay=0:0:enable='between(t,{st:.3f},{et:.3f})'[ov_out]"
+        )
+        curr_v = "[ov_out]"
+
+    # 6. Transition (v10 engine or v9 flash fallback)
     trans_str = c.get("transition_in", None)
     if trans_str and trans_str != "hard_cut":
         try:
@@ -644,7 +722,7 @@ def build_chunk_filter(
         filter_chains.append(f"{curr_v}fade=t=in:st=0:d=0.08:color=white[{flash_out}]")
         curr_v = f"[{flash_out}]"
 
-    # 6. Final format
+    # 7. Final format
     filter_chains.append(f"{curr_v}fps=30,format=yuv420p[out]")
     return ";".join(filter_chains)
 
@@ -654,6 +732,7 @@ def main():
     parser.add_argument("--preset", default="meta_reels_fast", help="Editing preset name")
     parser.add_argument("--seed", type=int, default=None, help="Random seed for variation")
     parser.add_argument("--no-cache", action="store_true", help="Force re-render all chunks")
+    parser.add_argument("--no-jev", action="store_true", default=True, help="Run baseline AutoAds v10 engine (no Jev API calls)")
     args = parser.parse_args()
 
     if args.seed is not None:
@@ -663,14 +742,18 @@ def main():
     cfg = get_preset(args.preset)
     print("=" * 75)
     print(f">> AutoAds v10 — Preset: {args.preset} ({cfg['description']})")
+    if args.no_jev:
+        print(">> Editorial Engine: AutoAds v10 Baseline (--no-jev)")
     print("=" * 75)
 
     # Initialize engines
-    cam_engine   = CameraEngine(intensity_scale=cfg["camera_intensity_scale"])
-    cap_engine   = CaptionEngine(intensity_scale=cfg["caption_intensity_scale"])
-    trans_engine = TransitionEngine(intensity_scale=cfg["transition_intensity_scale"])
-    sfx_engine   = SFXEngine(sfx_dir=SFX_DIR, intensity_scale=cfg["sfx_intensity_scale"])
-    int_engine   = IntensityEngine(global_scale=cfg["global_intensity_scale"])
+    cam_engine     = CameraEngine(intensity_scale=cfg["camera_intensity_scale"])
+    cap_engine     = CaptionEngine(intensity_scale=cfg["caption_intensity_scale"])
+    trans_engine   = TransitionEngine(intensity_scale=cfg["transition_intensity_scale"])
+    sfx_engine     = SFXEngine(sfx_dir=SFX_DIR, intensity_scale=cfg["sfx_intensity_scale"])
+    int_engine     = IntensityEngine(global_scale=cfg["global_intensity_scale"])
+    vfx_engine     = VFXEngine(base_dir=BUILD_DIR)
+    overlay_engine = GraphicOverlayEngine(font_path=FONT_JALNAN)
 
     ensure_sparkles()
 
@@ -703,25 +786,64 @@ def main():
                     print(f"   ✓ Chunk {chunk_idx:02d}: {cut.name} (split, cached)")
                 continue
 
-            # Build filter_complex
+            # Determine VFX Category
+            cut_vfx: Optional[VFXCategory] = cut.vfx
+            if not cut_vfx and cut.sparkles:
+                cut_vfx = VFXCategory.BEAUTY
+
+            # Determine Graphic Overlay
+            cut_overlay: Optional[OverlaySpec] = cut.overlay
+
+            # Prepare auxiliary inputs & indices
+            next_input_idx = 1
+            vfx_input_idx = None
+            overlay_input_idx = None
+            cmd_inputs = [
+                "-ss", str(cut.start),
+                "-t", str(cut.dur),
+                "-i", resolve_asset(cut.asset)
+            ]
+
+            # Wire VFX frame sequence
+            if cut_vfx and cut_vfx != VFXCategory.NONE:
+                vfx_pattern = vfx_engine.get_pattern(cut_vfx)
+                if vfx_pattern:
+                    cmd_inputs.extend(["-stream_loop", "-1", "-r", "30", "-i", vfx_pattern])
+                    vfx_input_idx = next_input_idx
+                    next_input_idx += 1
+
+            # Wire Graphic Overlay PNG asset
+            overlay_timing = None
+            if cut_overlay:
+                overlay_img_path = os.path.join(OVERLAY_DIR, f"ov_{chunk_idx:02d}.png")
+                ov_img = overlay_engine.render_overlay_image(cut_overlay, canvas_size=(W, H))
+                ov_img.save(overlay_img_path)
+                cmd_inputs.extend(["-loop", "1", "-t", str(cut.dur), "-i", overlay_img_path])
+                overlay_input_idx = next_input_idx
+                next_input_idx += 1
+                overlay_timing = (cut_overlay.start_time, cut_overlay.end_time)
+
+            # Build filter_complex with explicit input routing
             vf_str = build_chunk_filter(
                 c={
                     "hflip": cut.hflip,
                     "zoom": cut.zoom,
-                    "sparkles": cut.sparkles,
+                    "sparkles": cut.sparkles and (vfx_input_idx is None), # fallback only if no vfx sequence
                     "flash": cut.flash,
                     "camera": cut.camera.value if cut.camera else None,
                     "transition_in": cut.transition_in.value if cut.transition_in else None,
-                    "vfx": cut.vfx.value if cut.vfx else None,
                 },
                 scene_purpose=scene_purpose,
                 scene_intensity=scene_intensity,
                 cam_engine=cam_engine,
                 trans_engine=trans_engine,
                 clip_dur=cut.dur,
+                vfx_input_idx=vfx_input_idx,
+                overlay_input_idx=overlay_input_idx,
+                overlay_timing=overlay_timing,
             )
 
-            # Accurate signature-based cache validation
+            # P0-3: Comprehensive Cache Signature (asset, timing, filter, preset, seed, vfx, overlay)
             cache_meta_file = os.path.join(CHUNK_DIR, f"chunk_{chunk_idx:02d}.meta.json")
             cache_sig = {
                 "asset": str(cut.asset),
@@ -729,6 +851,15 @@ def main():
                 "dur": cut.dur,
                 "vf_str": vf_str,
                 "preset": args.preset,
+                "seed": args.seed,
+                "vfx": cut_vfx.value if cut_vfx else None,
+                "overlay": {
+                    "type": cut_overlay.overlay_type.value,
+                    "timing": [round(cut_overlay.start_time, 3), round(cut_overlay.end_time, 3)],
+                    "pos": list(cut_overlay.position),
+                    "size": list(cut_overlay.size),
+                    "text": cut_overlay.text,
+                } if cut_overlay else None,
             }
             cache_valid = False
             if (not args.no_cache
@@ -744,26 +875,18 @@ def main():
                     cache_valid = False
 
             if cache_valid:
-                print(f"   ✓ Chunk {chunk_idx:02d}: {cut.name} (verified cache)")
+                vfx_info = f", vfx={cut_vfx.value}" if cut_vfx else ""
+                ov_info = f", ov={cut_overlay.overlay_type.value}" if cut_overlay else ""
+                print(f"   ✓ Chunk {chunk_idx:02d}: {cut.name} (verified cache{vfx_info}{ov_info})")
                 continue
 
-            cmd = [
-                "ffmpeg", "-y",
-                "-ss", str(cut.start),
-                "-t", str(cut.dur),
-                "-i", resolve_asset(cut.asset)
-            ]
-            if cut.sparkles:
-                sp_pattern = os.path.join(SPARKLE_DIR, "sp_%03d.png")
-                cmd.extend(["-stream_loop", "-1", "-r", "30", "-i", sp_pattern])
-
-            cmd.extend([
+            cmd = ["ffmpeg", "-y"] + cmd_inputs + [
                 "-filter_complex", vf_str,
                 "-map", "[out]",
                 "-c:v", "libx264", "-preset", "veryfast", "-crf", "18",
                 "-an",
                 chunk_file
-            ])
+            ]
             subprocess.run(cmd, check=True, capture_output=True)
 
             try:
@@ -772,7 +895,9 @@ def main():
             except Exception:
                 pass
 
-            print(f"   ✓ Chunk {chunk_idx:02d}: {cut.name} ({cut.dur:.3f}s, {scene_purpose.value}, intensity={scene_intensity:.2f})")
+            vfx_tag = f" [vfx:{cut_vfx.value}]" if cut_vfx else ""
+            ov_tag = f" [ov:{cut_overlay.overlay_type.value}]" if cut_overlay else ""
+            print(f"   ✓ Chunk {chunk_idx:02d}: {cut.name} ({cut.dur:.3f}s, {scene_purpose.value}{vfx_tag}{ov_tag})")
 
     # Concatenate
     print(">> Concatenating chunks...")

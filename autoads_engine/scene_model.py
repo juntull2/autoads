@@ -211,6 +211,7 @@ class CutDef:
     camera_intensity: Optional[float] = None       # 0.0~1.0 scale factor
     transition_in: Optional[TransitionType] = None # overrides scene default
     vfx: Optional[VFXCategory] = None              # beauty / info / impact / product
+    overlay: Optional[Any] = None                  # GraphicOverlay specification (OverlaySpec)
     extra_filters: List[str] = field(default_factory=list)  # raw ffmpeg filters
 
 
@@ -293,6 +294,7 @@ def _cut_from_dict(c: Dict[str, Any]) -> CutDef:
         camera_intensity=c.get("camera_intensity"),
         transition_in=TransitionType(c["transition_in"]) if "transition_in" in c else None,
         vfx=vfx_val,
+        overlay=c.get("overlay", None),
         extra_filters=c.get("extra_filters", []),
     )
 
