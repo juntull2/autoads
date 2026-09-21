@@ -96,8 +96,10 @@ def render_split_chunk(out_chunk_path, duration=3.350):
         sp_idx = (f % 90)
         sp_file = os.path.join(SPARKLE_DIR, f'sp_{sp_idx:03d}.png')
         if os.path.exists(sp_file):
-            sp_img = Image.open(sp_file).convert('RGBA').crop((270, 0, 810, 1920))
-            img_r = Image.alpha_composite(img_r, sp_img)
+            # Crop TRUE right half of sparkle PNG so NO glow leaks onto Before (left) side
+            sp_full = Image.open(sp_file).convert('RGBA')
+            sp_right = sp_full.crop((540, 0, 1080, 1920))
+            img_r = Image.alpha_composite(img_r, sp_right)
             
         canvas = Image.new('RGBA', (W, H), (0, 0, 0, 255))
         canvas.paste(img_l, (0, 0))
