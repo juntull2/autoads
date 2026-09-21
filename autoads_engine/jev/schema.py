@@ -7,6 +7,17 @@ along with deterministic hashing and question schemas.
 Jev focuses solely on editorial meaning (purpose, emotion, intensity, emphasis)
 and never dictates low-level rendering parameters (FFmpeg filters, zoom ratios,
 coordinates, or filenames).
+
+TypeSafe SDK v0.7.0 verified API:
+  - Choice(instructions=str, criteria=dict[str, str])
+  - Score(instructions=str, criteria=list[str])
+  - Noul(instructions=str, criteria=dict[str, str])
+  - TypeSafeClient(api_key=str, timeout=float)
+  - client.system_one(state=dict, questions=dict, model=str) -> SystemOneResponse
+  - SystemOneResponse.answers: dict[str, ChoiceAnswer | ScoreAnswer | NoulAnswer]
+  - ChoiceAnswer.choice: str,  .confidence: float
+  - ScoreAnswer.score: float (0..N prob-weighted avg),  .confidence: float
+  - NoulAnswer.noul: float  (0..1 probability of True)
 """
 
 from __future__ import annotations
@@ -19,10 +30,12 @@ from autoads_engine.scene_model import ScenePurpose, SceneEmotion
 
 try:
     from typesafe_sdk import Choice, Noul, Score
+    _SDK_AVAILABLE = True
 except ImportError:
     Choice = None
     Noul = None
     Score = None
+    _SDK_AVAILABLE = False
 
 
 # ── Decision Model ─────────────────────────────────────────────────────────
@@ -31,18 +44,23 @@ except ImportError:
 class JEVDecision:
     """
     Validated typed editorial decision for a single scene.
+
+    Phase 1 contract:
+      - Produced by JevPlanner.plan_scene() or JevFallback.for_scene()
+      - Consumed only by Phase 2 Policy layer (not yet implemented)
+      - Never directly modifies FFmpeg filters or ASS tags
     """
     scene_id: int
     raw_script: str
     purpose: ScenePurpose
     emotion: SceneEmotion
-    intensity: float                   # Normalized between 0.0 and 1.0
-    is_hook_or_climax: bool            # True if hook or offer climax
-    emphasis_words: List[str]          # High-priority focus words in the script
-    editorial_cue: str                 # Human-readable directing intention
+    intensity: float           # Normalized [0.0, 1.0]
+    is_hook_or_climax: bool    # True if hook or final CTA climax
+    emphasis_words: List[str]  # Verified focus words from the script
+    editorial_cue: str         # Directing intention key
     model: str = "jev-latest"
-    confidence: float = 1.0            # Aggregated model confidence
-    decision_hash: str = ""            # Deterministic hash for caching
+    confidence: float = 1.0    # Aggregated model confidence [0.0, 1.0]
+    decision_hash: str = ""    # Deterministic 16-char SHA-256 hash
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -59,6 +77,18 @@ class JEVDecision:
             "decision_hash": self.decision_hash,
         }
 
+    def __repr__(self) -> str:
+        return (
+            f"JEVDecision(scene={self.scene_id} "
+            f"purpose={self.purpose.value} "
+            f"emotion={self.emotion.value} "
+            f"intensity={self.intensity:.2f} "
+            f"climax={self.is_hook_or_climax} "
+            f"cue={self.editorial_cue} "
+            f"hash={self.decision_hash} "
+            f"model={self.model})"
+        )
+
 
 def compute_decision_hash(
     scene_id: int,
@@ -72,20 +102,29 @@ def compute_decision_hash(
     model: str = "jev-latest",
 ) -> str:
     """
-    Generates a deterministic 16-character SHA-256 hash representing the decision.
+    Generates a deterministic 16-character hex hash from canonical JSON.
+
+    Canonical field order is fixed via sort_keys=True.
+    Emphasis words are sorted for order-independence.
+    Intensity is rounded to 3 decimal places before hashing.
+
+    Identical inputs  →  identical hash.
+    Any field change  →  different hash.
     """
     canonical_payload = {
-        "scene_id": scene_id,
-        "raw_script": raw_script.strip(),
-        "purpose": purpose.value,
+        "editorial_cue": editorial_cue.strip(),
         "emotion": emotion.value,
+        "emphasis_words": sorted([w.strip() for w in emphasis_words if w.strip()]),
         "intensity": round(float(intensity), 3),
         "is_hook_or_climax": bool(is_hook_or_climax),
-        "emphasis_words": sorted([w.strip() for w in emphasis_words if w.strip()]),
-        "editorial_cue": editorial_cue.strip(),
         "model": model.strip(),
+        "purpose": purpose.value,
+        "raw_script": raw_script.strip(),
+        "scene_id": scene_id,
     }
-    encoded = json.dumps(canonical_payload, sort_keys=True, ensure_ascii=False).encode("utf-8")
+    encoded = json.dumps(
+        canonical_payload, sort_keys=True, ensure_ascii=False
+    ).encode("utf-8")
     return hashlib.sha256(encoded).hexdigest()[:16]
 
 
@@ -134,29 +173,53 @@ EDITORIAL_CUE_RUBRIC = {
 def build_jev_questions() -> Dict[str, Any]:
     """
     Constructs the TypeSafe System One question dictionary.
+
+    Uses verified SDK v0.7.0 constructors:
+      Choice(instructions=str, criteria=dict[str, str])
+      Score(instructions=str, criteria=list[str])
+      Noul(instructions=str, criteria=dict[str, str])
     """
-    if Choice is None or Noul is None or Score is None:
-        raise RuntimeError("typesafe_sdk is not installed or available.")
+    if not _SDK_AVAILABLE:
+        raise RuntimeError(
+            "typesafe_sdk is not installed. "
+            "Install with: pip install typesafe-sdk"
+        )
 
     return {
         "purpose": Choice(
-            instructions="What is the primary narrative marketing purpose of this scene?",
+            instructions=(
+                "What is the primary narrative marketing purpose of this scene? "
+                "Select the single best-matching purpose category."
+            ),
             criteria=PURPOSE_RUBRIC,
         ),
         "emotion": Choice(
-            instructions="What is the dominant emotional tone expressed or targeted in this scene?",
+            instructions=(
+                "What is the dominant emotional tone expressed or targeted in this scene? "
+                "Select the single most prominent emotion."
+            ),
             criteria=EMOTION_RUBRIC,
         ),
         "intensity": Score(
-            instructions="How intense should the editing pace and visual energy be for this scene?",
+            instructions=(
+                "How intense should the editing pace and visual energy be for this scene? "
+                "0=calm, 3=maximum climax."
+            ),
             criteria=INTENSITY_LEVELS,
         ),
         "is_hook_or_climax": Noul(
-            instructions="Is this scene a critical retention hook (scene 1) or an urgent final CTA climax?",
+            instructions=(
+                "Is this scene a critical retention hook (opening scene 1) "
+                "or an urgent final CTA/offer climax? "
+                "Answer true only for these two critical moments."
+            ),
             criteria={"true": "Hook or climax moment", "false": "Body narrative or explanation"},
         ),
         "editorial_cue": Choice(
-            instructions="Which directorial guidance best describes the intended editorial rhythm?",
+            instructions=(
+                "Which directorial guidance best describes the intended editorial rhythm "
+                "and visual emphasis for this scene?"
+            ),
             criteria=EDITORIAL_CUE_RUBRIC,
         ),
     }

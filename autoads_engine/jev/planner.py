@@ -60,13 +60,21 @@ class JevPlanner:
     ) -> JEVDecision:
         """
         Produces a validated JEVDecision for a single scene.
+
+        Args:
+            scene: SceneDef with purpose/emotion/intensity populated.
+            force_fallback: If True, skip Jev API and use deterministic fallback.
+                            Set when use_jev=False (--jev not passed).
         """
         raw_script = " ".join([q.text for q in scene.sub_cues if q.text]).strip()
 
-        # Check if fallback is explicitly requested or client is unavailable
-        if force_fallback or not self.client.is_available():
-            reason = "cli_no_jev" if force_fallback else "client_unavailable"
-            return self.fallback.for_scene(scene, reason=reason)
+        # Case 1: --jev not passed → deterministic fallback, no API call
+        if force_fallback:
+            return self.fallback.for_scene(scene, reason="no_jev_flag")
+
+        # Case 2: SDK/API not available → fallback with reason
+        if not self.client.is_available():
+            return self.fallback.for_scene(scene, reason="client_unavailable")
 
         context = self.prepare_scene_context(scene)
         try:

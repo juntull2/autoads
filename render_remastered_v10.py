@@ -732,8 +732,20 @@ def main():
     parser.add_argument("--preset", default="meta_reels_fast", help="Editing preset name")
     parser.add_argument("--seed", type=int, default=None, help="Random seed for variation")
     parser.add_argument("--no-cache", action="store_true", help="Force re-render all chunks")
-    parser.add_argument("--no-jev", action="store_true", default=True, help="Run baseline AutoAds v10 engine (no Jev API calls)")
+    parser.add_argument(
+        "--jev",
+        action="store_true",
+        default=False,
+        help=(
+            "Enable TypeSafe/Jev editorial decision layer. "
+            "Requires TYPESAFE_API_KEY env variable. "
+            "Default OFF — omitting this flag runs baseline AutoAds v10."
+        ),
+    )
     args = parser.parse_args()
+
+    # Explicit boolean semantics: use_jev is True only when --jev is passed
+    use_jev: bool = args.jev
 
     if args.seed is not None:
         random.seed(args.seed)
@@ -742,8 +754,10 @@ def main():
     cfg = get_preset(args.preset)
     print("=" * 75)
     print(f">> AutoAds v10 — Preset: {args.preset} ({cfg['description']})")
-    if args.no_jev:
-        print(">> Editorial Engine: AutoAds v10 Baseline (--no-jev)")
+    if use_jev:
+        print(">> Editorial Engine: AutoAds v10 + Jev Decision Layer (--jev)")
+    else:
+        print(">> Editorial Engine: AutoAds v10 Baseline (Jev OFF)")
     print("=" * 75)
 
     # Initialize engines
