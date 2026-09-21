@@ -1,0 +1,37 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Jalnan 2,78,&H00FFFFFF,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,8.0,4.5,2,40,40,380,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:01.76,Default,,0,0,0,,전 피부과 프락셀 안 받아도
+Dialogue: 0,0:00:01.76,0:00:03.21,Default,,0,0,0,,{\c&H0000FFFF&\fscx115\fscy115}모공 요철 제로{\c&H00FFFFFF&\fscx100\fscy100}예요!
+Dialogue: 0,0:00:03.21,0:00:04.49,Default,,0,0,0,,유명한 모공 앰플,
+Dialogue: 0,0:00:04.49,0:00:05.85,Default,,0,0,0,,{\c&H0000FFFF&\fscx112\fscy112}레티놀 크림{\c&H00FFFFFF&\fscx100\fscy100} 다 써봐도
+Dialogue: 0,0:00:05.85,0:00:07.60,Default,,0,0,0,,{\c&H0055FFFF&\fscx112\fscy112}개기름 뜨고 화장 밀리고,{\c&H00FFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:07.60,0:00:09.52,Default,,0,0,0,,심할 땐 피부가 {\c&H005555FF&}뒤집어지더라고요.{\c&H00FFFFFF&}
+Dialogue: 0,0:00:09.52,0:00:11.76,Default,,0,0,0,,결국 {\c&H0000FFFF&\fscx115\fscy115}나비존 요철만 푹 파였죠{\c&H00FFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:11.76,0:00:14.30,Default,,0,0,0,,근데 귤껍질 같던 볼살 {\c&H0000FFFF&}매끈해진 거 보이세요?{\c&H00FFFFFF&}
+Dialogue: 0,0:00:14.30,0:00:16.64,Default,,0,0,0,,전 {\c&H0000FFFF&\fscx115\fscy115}레티놀 크림을 삼키기{\c&H00FFFFFF&\fscx100\fscy100} 시작했어요.
+Dialogue: 0,0:00:16.64,0:00:18.52,Default,,0,0,0,,{\c&H0000FFFF&\fscx120\fscy120}엥?! 레티놀 크림을 삼켜요?!{\c&H00FFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:18.52,0:00:20.18,Default,,0,0,0,,저도 처음엔 안 믿었는데,
+Dialogue: 0,0:00:20.18,0:00:21.52,Default,,0,0,0,,아니 땡볕 야구장을 다녀와도
+Dialogue: 0,0:00:21.52,0:00:22.94,Default,,0,0,0,,피지가 터지기는커녕
+Dialogue: 0,0:00:22.94,0:00:25.60,Default,,0,0,0,,{\c&H0000FFFF&\fscx115\fscy115}요철이 팽팽하게 차오르는 거예요!{\c&H00FFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:25.60,0:00:27.36,Default,,0,0,0,,그렇게 한 달 정도 꾸준히 먹어보니,
+Dialogue: 0,0:00:27.36,0:00:28.52,Default,,0,0,0,,이젠 프라이머 없이도
+Dialogue: 0,0:00:28.52,0:00:30.46,Default,,0,0,0,,{\c&H0000FFFF&\fscx118\fscy118}매끈한 17호 피부{\c&H00FFFFFF&\fscx100\fscy100}가 됐어요!
+Dialogue: 0,0:00:30.46,0:00:32.84,Default,,0,0,0,,{\c&H00FFFF00&}속피지선부터 바짝 말려주고{\c&H00FFFFFF&}
+Dialogue: 0,0:00:32.84,0:00:34.96,Default,,0,0,0,,{\c&H00FF88FF&}초저분자 콜라겐을 메워주는 원리!{\c&H00FFFFFF&}
+Dialogue: 0,0:00:34.96,0:00:36.96,Default,,0,0,0,,와, 피부과 프락셀 레이저가
+Dialogue: 0,0:00:36.96,0:00:39.44,Default,,0,0,0,,{\c&H0000FFFF&\fscx115\fscy115}피부 자체에 이식된 느낌?!{\c&H00FFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:39.44,0:00:41.14,Default,,0,0,0,,하루 종일 자연광 맞아도
+Dialogue: 0,0:00:41.14,0:00:43.26,Default,,0,0,0,,{\c&H0000FFFF&\fscx115\fscy115}매끈한 깐달걀 피부 톤{\c&H00FFFFFF&\fscx100\fscy100}이 쭈욱 유지돼요!
+Dialogue: 0,0:00:43.26,0:00:45.66,Default,,0,0,0,,{\c&H0000FFFF&\fscx120\fscy120}30일 기간 한정 반값 할인!{\c&H00FFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:45.66,0:00:48.38,Default,,0,0,0,,궁금한 분들은 {\c&H0000FFFF&}아래 비밀링크{\c&H00FFFFFF&} 참고해 보세요~

@@ -1,0 +1,58 @@
+# API Keys & Secrets
+*api_key*.txt
+.env
+*.env
+*.key
+*.pem
+
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# Heavy Media Files (Video / Audio)
+*.mp4
+*.wav
+*.mp3
+*.m4a
+*.mov
+*.avi
+*.flac
+
+# Intermediate Build & Frame Dumps
+build_*/
+ad17_frames/
+clip12_frames/
+dazzle_final_frames/
+pibu_gwhak_frames/
+ref_frames/
+ref2_frames/
+ref2_split_detail/
+ref_transition/
+rich_overlays/
+test_dazzle/
+test_dazzle2/
+test_split/
+test_thumbs/
+ugc_thumbs/
+xhs_candidates/
+xhs_skin_thumbs/
+after_candidates/
+fish_audio_beats/
+temp_audio/
+
+# Hypit & Scratch Caches
+.hypit/
+scratch/
+scratch_*
+
+# System & IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini

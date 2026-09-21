@@ -1,0 +1,27 @@
+[Script Info]
+Title: Retiragen Shortform Subtitles
+ScriptType: v4.00+
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+YCbCr Matrix: TV.709
+PlayResX: 1080
+PlayResY: 1920
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: MainTitle,Pretendard Black,68,&H00FFFFFF,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,5,3,2,60,60,750,1
+Style: BadgeYellow,Pretendard Black,72,&H002AFAFF,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,6,4,2,60,60,480,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:01.80,MainTitle,,0,0,750,,전 피부과 프락셀 안 받아도\n{\c&H002AFAFF&}모공 요철 제로{\c&H00FFFFFF&}예요!
+Dialogue: 0,0:00:01.80,0:00:06.10,MainTitle,,0,0,750,,유명한 모공 앰플, 크림 다 써봐도\n{\c&H002AFAFF&}개기름 뜨고 화장 밀리고{\c&H00FFFFFF&} 뒤집어져요
+Dialogue: 0,0:00:06.10,0:00:07.50,MainTitle,,0,0,750,,결국 {\c&H002AFAFF&}나비존 요철{\c&H00FFFFFF&}만 푹 파였죠
+Dialogue: 0,0:00:07.50,0:00:09.80,MainTitle,,0,0,750,,근데 귤껍질 같던 볼살\n{\c&H002AFAFF&}매끈해진 거{\c&H00FFFFFF&} 보이세요?
+Dialogue: 0,0:00:09.80,0:00:11.60,MainTitle,,0,0,750,,전 {\c&H002AFAFF&}레티놀 크림을 삼키기{\c&H00FFFFFF&} 시작했어요!
+Dialogue: 0,0:00:11.60,0:00:12.80,MainTitle,,0,0,750,,{\c&H002AFAFF&}엥?!{\c&H00FFFFFF&} 레티놀 크림을 삼켜요?
+Dialogue: 0,0:00:12.80,0:00:17.50,MainTitle,,0,0,750,,땡볕 야구장을 다녀와도\n피지 터짐 NO! {\c&H002AFAFF&}요철이 팽팽하게!{\c&H00FFFFFF&}
+Dialogue: 0,0:00:17.50,0:00:21.50,MainTitle,,0,0,750,,한 달 꾸준히 먹어보니,\n이젠 프라이머 없이도 {\c&H002AFAFF&}매끈한 17호 피부!{\c&H00FFFFFF&}
+Dialogue: 0,0:00:21.50,0:00:28.50,MainTitle,,0,0,750,,{\c&H002AFAFF&}속피지선 건조 + 초저분자 콜라겐{\c&H00FFFFFF&} 메움 원리!\n프락셀 레이저가 피부에 이식된 느낌?
+Dialogue: 0,0:00:28.50,0:00:31.50,MainTitle,,0,0,750,,하루 종일 자연광 맞아도\n{\c&H002AFAFF&}매끈한 깐달걀 피부 톤{\c&H00FFFFFF&} 쭈욱 유지돼요!
+Dialogue: 0,0:00:31.50,0:00:36.88,MainTitle,,0,0,750,,{\c&H002AFAFF&}🔥 30일 한정 50% 반값 특가!{\c&H00FFFFFF&}\n궁금한 분들은 아래 비밀링크 클릭!

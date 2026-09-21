@@ -1,0 +1,62 @@
+[Script Info]
+Title: Retiragen Shortform CapCut Floral Subtitles v7
+ScriptType: v4.00+
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+YCbCr Matrix: TV.709
+PlayResX: 1080
+PlayResY: 1920
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: PopSub,Jalnan 2,68,&H00FFFFFF,&H000000FF,&H00000000,&H90000000,-1,0,0,0,100,100,0,0,1,5.0,2.5,2,60,60,340,1
+Style: CapCutPill,Jalnan 2,46,&H00FFFFFF,&H000000FF,&H00000000,&HB0000000,-1,0,0,0,100,100,0,0,3,15,0,8,40,40,240,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 1,0:00:00.00,0:00:02.68,CapCutPill,,0,0,0,,{\fscx95\fscy95\t(0,100,\fscx100\fscy100)}🌸 [ 프락셀 없이 모공 요철 ZERO ] 🌸
+Dialogue: 0,0:00:00.00,0:00:01.46,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H8080FF&}🌸 {\fnJalnan 2\c&H00FFFFFF&}전 피부과 프락셀 안 받아도 {\fnSegoe UI Emoji\c&H8080FF&}🌸
+Dialogue: 0,0:00:01.46,0:00:02.68,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H00FFFF&}✨ {\fnJalnan 2\c&H00FFFFFF&}모공 요철 {\c&H0000E5FF&}제로{\c&H00FFFFFF&}예요! {\fnSegoe UI Emoji\c&H00FFFF&}✨
+Dialogue: 1,0:00:02.68,0:00:06.34,CapCutPill,,0,0,0,,{\fscx95\fscy95\t(0,100,\fscx100\fscy100)}⚠️ [ 피지 폭발 & 화장 밀림 ] ⚠️
+Dialogue: 0,0:00:02.68,0:00:03.68,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnJalnan 2\c&H00FFFFFF&}유명한 모공 앰플,
+Dialogue: 0,0:00:03.68,0:00:04.88,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H80FFFF&}💧 {\fnJalnan 2\c&H0000E5FF&}레티놀 크림{\c&H00FFFFFF&} 다 써봐도
+Dialogue: 0,0:00:04.88,0:00:06.34,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnJalnan 2\c&H00FFFFFF&}개기름 뜨고 {\c&H0000E5FF&}화장 밀리고... {\fnSegoe UI Emoji\c&H80FFFF&}💦
+Dialogue: 1,0:00:06.34,0:00:09.80,CapCutPill,,0,0,0,,{\fscx95\fscy95\t(0,100,\fscx100\fscy100)}🚨 [ 나비존 모공 요철 SOS ] 🚨
+Dialogue: 0,0:00:06.34,0:00:07.09,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnJalnan 2\c&H00FFFFFF&}심할 땐 피부가
+Dialogue: 0,0:00:07.09,0:00:07.98,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnJalnan 2\c&H00FFFFFF&}아예 {\c&H0000E5FF&}뒤집어지더라고요! {\fnSegoe UI Emoji\c&H5050FF&}💥
+Dialogue: 0,0:00:07.98,0:00:08.99,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnJalnan 2\c&H00FFFFFF&}결국 나비존 요철만
+Dialogue: 0,0:00:08.99,0:00:09.80,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H0050FF&}🚨 {\fnJalnan 2\c&H0000E5FF&}푹 파였죠! {\fnSegoe UI Emoji\c&H0050FF&}🚨
+Dialogue: 1,0:00:09.80,0:00:13.88,CapCutPill,,0,0,0,,{\fscx95\fscy95\t(0,100,\fscx100\fscy100)}✨ [ 귤껍질 모공 ➔ 깐달걀 피부 반전 ] ✨
+Dialogue: 0,0:00:09.80,0:00:11.00,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H00A0FF&}🍊 {\fnJalnan 2\c&H00FFFFFF&}귤껍질 같던 볼살
+Dialogue: 0,0:00:11.00,0:00:11.95,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H00FFFF&}✨ {\fnJalnan 2\c&H0000E5FF&}매끈해진 거{\c&H00FFFFFF&} 보이세요?
+Dialogue: 0,0:00:11.95,0:00:12.90,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnJalnan 2\c&H00FFFFFF&}전 {\c&H0000E5FF&}레티놀 크림{\c&H00FFFFFF&}을
+Dialogue: 0,0:00:12.90,0:00:13.88,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H8080FF&}💊 {\fnJalnan 2\c&H0000E5FF&}삼키기 시작했어요! {\fnSegoe UI Emoji\c&H8080FF&}💊
+Dialogue: 1,0:00:13.88,0:00:15.46,CapCutPill,,0,0,0,,{\fscx95\fscy95\t(0,100,\fscx100\fscy100)}⚡ [ 크림을 바르지 않고 삼킨다?! ] ⚡
+Dialogue: 0,0:00:13.88,0:00:15.46,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H00E5FF&}⚡ {\fnJalnan 2\c&H0000E5FF&}엥?!{\c&H00FFFFFF&} 레티놀 크림을 삼켜요?! {\fnSegoe UI Emoji\c&H00E5FF&}⚡
+Dialogue: 1,0:00:15.46,0:00:21.38,CapCutPill,,0,0,0,,{\fscx95\fscy95\t(0,100,\fscx100\fscy100)}☀️ [ 땡볕 야구장에서도 피지 ZERO ] ☀️
+Dialogue: 0,0:00:15.46,0:00:16.56,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnJalnan 2\c&H00FFFFFF&}저도 처음엔 안 믿었는데,
+Dialogue: 0,0:00:16.56,0:00:17.86,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H00FFFF&}☀️ {\fnJalnan 2\c&H0000E5FF&}땡볕 야구장{\c&H00FFFFFF&}을 다녀와도
+Dialogue: 0,0:00:17.86,0:00:18.96,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnJalnan 2\c&H00FFFFFF&}피지가 터지기는커녕
+Dialogue: 0,0:00:18.96,0:00:20.06,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnJalnan 2\c&H00FFFFFF&}요철이 점점 더
+Dialogue: 0,0:00:20.06,0:00:21.38,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H8080FF&}💖 {\fnJalnan 2\c&H0000E5FF&}팽팽하게 차오르는 거예요! {\fnSegoe UI Emoji\c&H8080FF&}💖
+Dialogue: 1,0:00:21.38,0:00:25.42,CapCutPill,,0,0,0,,{\fscx95\fscy95\t(0,100,\fscx100\fscy100)}🌷 [ 한 달 만에 17호 도자기 피부 완성 ] 🌷
+Dialogue: 0,0:00:21.38,0:00:22.84,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H8080FF&}🌸 {\fnJalnan 2\c&H00FFFFFF&}한 달 정도 꾸준히 먹어보니,
+Dialogue: 0,0:00:22.84,0:00:23.88,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnJalnan 2\c&H00FFFFFF&}이젠 프라이머 없이도
+Dialogue: 0,0:00:23.88,0:00:25.42,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H8080FF&}🌷 {\fnJalnan 2\c&H0000E5FF&}매끈한 17호 피부{\c&H00FFFFFF&}가 됐어요!
+Dialogue: 1,0:00:25.42,0:00:32.92,CapCutPill,,0,0,0,,{\fscx95\fscy95\t(0,100,\fscx100\fscy100)}🔬 [ 속피지 건조 + 초저분자 콜라겐 ] 🔬
+Dialogue: 0,0:00:25.42,0:00:26.42,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnJalnan 2\c&H00FFFFFF&}알고 보니 속피지선부터
+Dialogue: 0,0:00:26.42,0:00:27.44,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H00E5FF&}🔬 {\fnJalnan 2\c&H0000E5FF&}바짝 말려주고! {\fnSegoe UI Emoji\c&H00E5FF&}🔬
+Dialogue: 0,0:00:27.44,0:00:28.62,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnJalnan 2\c&H00FFFFFF&}진피 속엔 초저분자 콜라겐
+Dialogue: 0,0:00:28.62,0:00:29.84,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H80FFFF&}🧬 {\fnJalnan 2\c&H0000E5FF&}가득 메워주는 원리! {\fnSegoe UI Emoji\c&H80FFFF&}🧬
+Dialogue: 0,0:00:29.84,0:00:31.12,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnJalnan 2\c&H00FFFFFF&}와, 피부과 프락셀 레이저가
+Dialogue: 0,0:00:31.12,0:00:32.92,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H00FFFF&}💎 {\fnJalnan 2\c&H0000E5FF&}피부 자체에 이식된 느낌?! {\fnSegoe UI Emoji\c&H00FFFF&}💎
+Dialogue: 1,0:00:32.92,0:00:36.09,CapCutPill,,0,0,0,,{\fscx95\fscy95\t(0,100,\fscx100\fscy100)}✨ [ 24시간 깐달걀 꿀광 피부 유지 ] ✨
+Dialogue: 0,0:00:32.92,0:00:34.07,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H00FFFF&}☀️ {\fnJalnan 2\c&H00FFFFFF&}하루 종일 자연광 맞아도
+Dialogue: 0,0:00:34.07,0:00:35.27,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H8080FF&}🌸 {\fnJalnan 2\c&H0000E5FF&}매끈한 깐달걀 피부 톤{\c&H00FFFFFF&}이
+Dialogue: 0,0:00:35.27,0:00:36.09,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnJalnan 2\c&H0000E5FF&}쭈욱 유지돼요! {\fnSegoe UI Emoji\c&H00FFFF&}✨
+Dialogue: 1,0:00:36.09,0:00:41.40,CapCutPill,,0,0,0,,{\fscx95\fscy95\t(0,100,\fscx100\fscy100)}🎁 [30일 한정] 반값 비밀할인 OPEN 🎁
+Dialogue: 0,0:00:36.09,0:00:36.94,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnJalnan 2\c&H00FFFFFF&}30일 기간 한정
+Dialogue: 0,0:00:36.94,0:00:38.01,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H00FFFF&}🎉 {\fnJalnan 2\c&H0000E5FF&}반값 할인 중! {\fnSegoe UI Emoji\c&H00FFFF&}🎉
+Dialogue: 0,0:00:38.01,0:00:38.89,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H00FFFF&}🤫 {\fnJalnan 2\c&H00FFFFFF&}궁금한 분들은
+Dialogue: 0,0:00:38.89,0:00:40.36,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H8080FF&}💖 {\fnJalnan 2\c&H0000E5FF&}아래 비밀링크{\c&H00FFFFFF&} 참고해 보세요~
+Dialogue: 0,0:00:40.36,0:00:41.56,PopSub,,0,0,0,,{\fscx90\fscy90\t(0,70,\fscx110\fscy110)\t(70,140,\fscx100\fscy100)}{\fnSegoe UI Emoji\c&H00FFFF&}👆 {\fnJalnan 2\c&H0000E5FF&}지금 링크에서 확인하세요! {\fnSegoe UI Emoji\c&H00FFFF&}👆
