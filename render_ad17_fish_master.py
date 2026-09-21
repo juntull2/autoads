@@ -213,8 +213,8 @@ def render_all_cuts():
         },
         {
             "id": 18, "name": "c18_cheek_closeup",
-            "asset": resolve_asset(os.path.join(MODEL_DIR, "피부 클로즈업2 - Trim.mp4")),
-            "ss": 0.5, "dur": 2.642, "zoom": True, "hflip": False
+            "asset": resolve_asset(os.path.join(MODEL_DIR, "피부 클로즈업3 - Trim.mp4")),
+            "ss": 0.3, "dur": 2.642, "zoom": True, "hflip": False
         },
         # Scene 7: Climax & Ending CTA (40.020s ~ 47.361s, dur: 7.341)
         {
@@ -230,7 +230,7 @@ def render_all_cuts():
         {
             "id": 21, "name": "c21_outro_hold_smile",
             "asset": resolve_asset(os.path.join(MODEL_DIR, "환하게 웃는 장면 - Trim.mp4")),
-            "ss": 0.5, "dur": 2.541, "zoom": True, "hflip": False
+            "ss": 0.3, "dur": 3.170, "zoom": True, "hflip": False
         }
     ]
     
@@ -238,37 +238,54 @@ def render_all_cuts():
     print(f">> Rendering {len(cuts)} balanced cuts (CRITICAL: -an applied to all chunks)...")
     for cut in cuts:
         chunk_out = os.path.join(CHUNK_DIR, f"{cut['name']}.mp4")
-        if cut.get("prebuilt") and os.path.exists(cut["asset"]):
-            rendered_chunks.append(cut["asset"])
-            continue
-            
         dur = cut["dur"]
         ss = cut["ss"]
         asset = cut["asset"]
         
-        vf_filters = []
-        vf_filters.append("scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920")
-        
-        if cut.get("hflip"):
-            vf_filters.append("hflip")
+        # Check if prebuilt or already rendered with accurate duration
+        if cut.get("prebuilt") and os.path.exists(cut["asset"]):
+            rendered_chunks.append(cut["asset"])
+            continue
             
-        if cut.get("zoom"):
-            vf_filters.append("scale=1242:2208,zoompan=z='min(zoom+0.0012,1.15)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1080x1920:fps=30")
+        need_render = True
+        if os.path.exists(chunk_out):
+            try:
+                p_res = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', chunk_out], capture_output=True, text=True)
+                cur_dur = float(p_res.stdout.strip())
+                if abs(cur_dur - dur) < 0.05:
+                    need_render = False
+                    rendered_chunks.append(chunk_out)
+            except Exception:
+                pass
+                
+        if need_render:
+            vf_filters = []
+            vf_filters.append("scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920")
             
-        vf_str = ",".join(vf_filters)
-        
-        cmd = [
-            'ffmpeg', '-y',
-            '-ss', str(ss), '-t', str(dur), '-i', asset,
-            '-vf', vf_str,
-            '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '18', '-pix_fmt', 'yuv420p',
-            '-r', '30',
-            '-an', # CRITICAL: NO CAMERA AUDIO!
-            chunk_out
-        ]
-        subprocess.run(cmd, check=True, capture_output=True)
-        rendered_chunks.append(chunk_out)
-        print(f"   [{cut['id']:02d}/21] Rendered {cut['name']} ({dur:.3f}s, silent video)")
+            if cut.get("hflip"):
+                vf_filters.append("hflip")
+                
+            if cut.get("zoom"):
+                vf_filters.append(f"scale=eval=frame:w='1080*(1+0.15*t/{dur:.3f})':h='1920*(1+0.15*t/{dur:.3f})',crop=1080:1920")
+                
+            vf_filters.append("fps=30,tpad=stop_mode=clone:stop_duration=5")
+            vf_str = ",".join(vf_filters)
+            
+            cmd = [
+                'ffmpeg', '-y',
+                '-ss', str(ss),
+                '-i', asset,
+                '-vf', vf_str,
+                '-t', str(dur),
+                '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '18', '-pix_fmt', 'yuv420p',
+                '-an', # CRITICAL: ZERO CAMERA AUDIO
+                chunk_out
+            ]
+            subprocess.run(cmd, check=True, capture_output=True)
+            rendered_chunks.append(chunk_out)
+            print(f"   [{cut['id']:02d}/21] Rendered {cut['name']} (target: {dur:.3f}s, silent video)")
+        else:
+            print(f"   [{cut['id']:02d}/21] Reusing {cut['name']} (duration verified: {dur:.3f}s)")
         
     return rendered_chunks
 
@@ -277,15 +294,20 @@ def concat_and_burn():
     concat_txt = os.path.join(BUILD_DIR, "concat_list_v3.txt")
     with open(concat_txt, "w", encoding="utf-8") as f:
         for c in chunks:
-            c_norm = c.replace('\\', '/')
-            f.write(f"file '{c_norm}'\n")
+            # Use relative path from BUILD_DIR to avoid Windows unicode path demuxer quirks
+            rel_p = os.path.relpath(c, BUILD_DIR).replace('\\', '/')
+            f.write(f"file '{rel_p}'\n")
             
     raw_merged = os.path.join(BUILD_DIR, "raw_visual_merged_v3.mp4")
     print(">> Concatenating silent visual chunks...")
     subprocess.run([
-        'ffmpeg', '-y', '-f', 'concat', '-safe', '0', '-i', concat_txt,
+        'ffmpeg', '-y', '-f', 'concat', '-safe', '0', '-i', "concat_list_v3.txt",
         '-c', 'copy', raw_merged
-    ], check=True, capture_output=True)
+    ], cwd=BUILD_DIR, check=True, capture_output=True)
+    
+    probe_raw = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', raw_merged], capture_output=True, text=True)
+    raw_dur = float(probe_raw.stdout.strip())
+    print(f">> Merged Visual Track Duration: {raw_dur:.3f}s")
     
     master_audio = os.path.join(BUILD_DIR, "master_audio_fish.wav")
     ass_subs = os.path.join(BUILD_DIR, "ad17_fish_subtitles.ass").replace('\\', '/').replace(':', '\\:')
