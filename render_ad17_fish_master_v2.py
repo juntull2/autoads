@@ -30,10 +30,10 @@ ROOT_DIR = r"C:\Users\5700G\Desktop\레티라겐"
 MODEL_DIR = r"C:\Users\5700G\Desktop\레티라겐\윤라영님모델_소스"
 XHS_DIR = r"C:\Users\5700G\Desktop\레티라겐\xhs_sources"
 BUILD_DIR = os.path.join(WORKDIR, "build_ad17_fish")
-CHUNK_DIR = os.path.join(BUILD_DIR, "chunks_v4")
-SPLIT_DIR = os.path.join(BUILD_DIR, "split_frames_v4")
+CHUNK_DIR = os.path.join(BUILD_DIR, "chunks_conti")
+SPLIT_DIR = os.path.join(BUILD_DIR, "split_frames_conti")
 SPARKLE_DIR = os.path.join(WORKDIR, "build_temp_v9", "sparkles")
-OVERLAY_DIR = os.path.join(BUILD_DIR, "overlays_v2")
+OVERLAY_DIR = os.path.join(BUILD_DIR, "overlays_conti")
 
 os.makedirs(CHUNK_DIR, exist_ok=True)
 os.makedirs(SPLIT_DIR, exist_ok=True)
@@ -111,6 +111,11 @@ def render_split_chunk(out_chunk_path, duration=3.350):
         d.rounded_rectangle([735, 120, 885, 185], radius=16, fill=(245, 140, 190, 240), outline=(255, 255, 255, 255), width=2)
         d.text((810, 152), '애프터', fill=(255, 255, 255), font=f_tag, anchor='mm')
         
+        lbl_img = os.path.join(OVERLAY_DIR, "05_after_label.png")
+        if os.path.exists(lbl_img):
+            lbl = Image.open(lbl_img).convert('RGBA')
+            canvas = Image.alpha_composite(canvas, lbl)
+            
         canvas.convert('RGB').save(f'{SPLIT_DIR}/comp_{f:03d}.png')
         
     cmd = [
@@ -136,26 +141,25 @@ def render_all_cuts():
             "id": 1, "name": "c01_hook_greeting",
             "asset": resolve_asset(os.path.join(MODEL_DIR, "환하게 인사하는 장면2 - Trim.mp4")),
             "ss": 0.0, "dur": 1.350, "zoom": True, "hflip": False,
-            "overlay": os.path.join(OVERLAY_DIR, "overlay_insta_qna.png")
+            "overlay": os.path.join(OVERLAY_DIR, "01_insta_qna.png")
         },
         # Scene 2: Laser Agony & Flaking (1.35s ~ 7.95s, dur: 6.600)
         {
             "id": 2, "name": "c02_laser_broll",
             "asset": resolve_asset(os.path.join(MODEL_DIR, "Person_receiving_laser_skin_trea…_202609041413.mp4")),
             "ss": 0.0, "dur": 2.350, "zoom": True, "hflip": False,
-            "overlay": os.path.join(OVERLAY_DIR, "overlay_clinic_cost.png")
+            "overlay": os.path.join(OVERLAY_DIR, "01_cost_tag.png")
         },
         {
             "id": 3, "name": "c03_powder_flaking_broll",
             "asset": resolve_asset(os.path.join(ROOT_DIR, "결혼준비_2_메이크업_파우더터치.mp4")),
             "ss": 0.5, "dur": 1.550, "zoom": True, "hflip": False,
-            "overlay": os.path.join(OVERLAY_DIR, "overlay_date_stamp_1.png")
+            "overlay": os.path.join(OVERLAY_DIR, "02_date_stamp.png")
         },
         {
             "id": 4, "name": "c04_xhs_sebum_shine",
             "asset": resolve_asset(os.path.join(XHS_DIR, r"4_피부_숏폼영상_무자막\17.mp4")),
-            "ss": 1.0, "dur": 2.700, "zoom": True, "hflip": False,
-            "overlay": os.path.join(OVERLAY_DIR, "overlay_date_stamp_2.png")
+            "ss": 1.0, "dur": 2.700, "zoom": True, "hflip": False
         },
         # Scene 3: Paradigm Shift & Concept (7.95s ~ 16.30s, dur: 8.350)
         {
@@ -225,7 +229,7 @@ def render_all_cuts():
             "id": 17, "name": "c17_package_hflip",
             "asset": resolve_asset(os.path.join(MODEL_DIR, "제품 얼굴 옆에 들고 찍는 장면(좌우반전됨..) - Trim.mp4")),
             "ss": 0.5, "dur": 2.250, "zoom": True, "hflip": True,
-            "overlay": os.path.join(OVERLAY_DIR, "overlay_usp_card.png")
+            "overlay": os.path.join(OVERLAY_DIR, "07_usp_card.png")
         },
         {
             "id": 18, "name": "c18_cheek_closeup",
@@ -246,12 +250,14 @@ def render_all_cuts():
         {
             "id": 21, "name": "c21_pointing_cta",
             "asset": resolve_asset(os.path.join(MODEL_DIR, "화살표 아래로_CTA (손가락 모양이 좀..) - Trim.mp4")),
-            "ss": 0.2, "dur": 2.500, "zoom": True, "hflip": False
+            "ss": 0.2, "dur": 2.500, "zoom": True, "hflip": False,
+            "overlay": os.path.join(OVERLAY_DIR, "08_cta_box.png")
         },
         {
             "id": 22, "name": "c22_outro_hold_smile",
             "asset": resolve_asset(os.path.join(MODEL_DIR, "환하게 웃는 장면 - Trim.mp4")),
-            "ss": 0.3, "dur": 1.411, "zoom": True, "hflip": False
+            "ss": 0.3, "dur": 1.411, "zoom": True, "hflip": False,
+            "overlay": os.path.join(OVERLAY_DIR, "08_cta_box.png")
         }
     ]
     
@@ -345,7 +351,7 @@ def concat_and_burn():
     print(f">> Merged Visual Track Duration: {raw_dur:.3f}s")
     
     master_audio = os.path.join(BUILD_DIR, "master_audio_fish.wav")
-    ass_subs = os.path.join(BUILD_DIR, "ad17_fish_subtitles_synced.ass").replace('\\', '/').replace(':', '\\:')
+    ass_subs = os.path.join(BUILD_DIR, "ad17_fish_conti_subs.ass").replace('\\', '/').replace(':', '\\:')
     
     final_output = os.path.join(WORKDIR, "ad17_retiragen_fish_remastered.mp4")
     print(f">> Burning Perfectly Synced PopSub Subtitles & Muxing Master Audio into: {final_output}...")
